@@ -35,13 +35,13 @@ func adaptor(action string, addr []string, timeout time.Duration, username strin
 				session, err = mgo.DialWithTimeout(addr[0], timeout)
 			}
 		case "cluster":
-			datainfo = *mgo.DataInfo{
+			dialinfo = *mgo.DialInfo{
 				Addrs:    addr,
 				Timeout:  timeout,
 				UserName: username,
 				Password: passwd,
 			}
-			session, err = mgo.DialWithInfo(datainfo)
+			session, err = mgo.DialWithInfo(dialinfo)
 		}
 		return session, err
 	}

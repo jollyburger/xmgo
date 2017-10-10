@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mgo"
+	mgo "gopkg.in/mgo.v2"
 )
 
 type MgoPool struct {

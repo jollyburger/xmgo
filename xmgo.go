@@ -19,7 +19,7 @@ type MgoPool struct {
 type Factory func() (*mgo.Session, error)
 
 func adaptor(action string, addr []string, timeout time.Duration, username string, passwd string) Factory {
-	ff = func() (*mgo.Session, error) {
+	ff := func() (*mgo.Session, error) {
 		var (
 			session *mgo.Session
 			err     error
@@ -35,13 +35,13 @@ func adaptor(action string, addr []string, timeout time.Duration, username strin
 				session, err = mgo.DialWithTimeout(addr[0], timeout)
 			}
 		case "cluster":
-			dialinfo = *mgo.DialInfo{
+			dialinfo := mgo.DialInfo{
 				Addrs:    addr,
 				Timeout:  timeout,
-				UserName: username,
+				Username: username,
 				Password: passwd,
 			}
-			session, err = mgo.DialWithInfo(dialinfo)
+			session, err = mgo.DialWithInfo(&dialinfo)
 		}
 		return session, err
 	}
@@ -56,7 +56,7 @@ func InitMgoPool(mode string, addr []string, timeout time.Duration, username str
 	return mgo_pool
 }
 
-func (mp *mgoPool) getSessions() chan *mgo.Session {
+func (mp *MgoPool) getSessions() chan *mgo.Session {
 	mp.RLock()
 	defer mp.RUnlock()
 	return mp.sessions

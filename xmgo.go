@@ -72,6 +72,7 @@ func (mp *MgoPool) Get() (*mgo.Session, error) {
 		if session == nil {
 			return nil, errors.New("get nil session")
 		}
+		session.Refresh()
 		return session, nil
 	default:
 		session, err := mp.factory()
